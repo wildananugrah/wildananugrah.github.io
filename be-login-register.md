@@ -240,7 +240,7 @@ export async function registerByGmail(req, res) {
       data: await this.token(user),
     };
   } catch (err) {
-    return res.code(500).send(err);
+    return res.code(err.statusCode).send(err);
   }
 }
 ```
@@ -260,7 +260,7 @@ export async function loginByGmail(req, res) {
       data: await this.token(user),
     });
   } catch (err) {
-    return res.code(500).send(err);
+    return res.code(err.statusCode).send(err);
   }
 }
 ```
