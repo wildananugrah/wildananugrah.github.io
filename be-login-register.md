@@ -86,9 +86,22 @@ HOST_GOOGLE_API=https://www.googleapis.com
 DATABASE_URL=postgresql://db-youtube:db-youtube@0.0.0.0:6000/db-youtube?schema=public
 ```
 
-11. make execute-db
-12. create error folder
-13. create AppError.js
+11. create common.config.js
+
+```js
+import dotenv from "dotenv";
+
+dotenv.config();
+
+export const appHost = process.env.APP_HOST;
+export const appPort = process.env.APP_PORT;
+export const appEnv = process.env.APP_ENV;
+export const hostJwt = process.env.HOST_JWT;
+```
+
+12. make execute-db
+13. create error folder
+14. create AppError.js
 
 ```js
 class AppError extends Error {
@@ -287,4 +300,40 @@ const routes = async (app, options) => {
 };
 
 export default routes;
+```
+
+24. create index.js
+
+```js
+import path from "path";
+import { appHost, appPort, appEnv } from "./configs/common.config.js";
+import { fileURLToPath } from "url";
+
+import Server from "fastify";
+const app = new Server({ logger: appEnv === "development" ? true : false });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// register cors plugin
+import cors from "@fastify/cors";
+app.register(cors);
+// TODO list url & method yg di allow
+
+// autoload all custom plugins
+import autoLoad from "@fastify/autoload";
+app.register(autoLoad, {
+  dir: path.join(__dirname, "plugins"),
+});
+
+// autoload all routes
+app.register(autoLoad, {
+  dir: path.join(__dirname, "routes"),
+});
+
+app.listen({ host: appHost, port: appPort }, (err, _) => {
+  if (err) {
+    console.error(err);
+  }
+});
 ```
