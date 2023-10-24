@@ -1,4 +1,4 @@
-# frontend
+# Frontend
 
 1. create folder frontend
 2. npx create-next-app@latest .
