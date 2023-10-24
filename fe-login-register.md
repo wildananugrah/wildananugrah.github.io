@@ -7,7 +7,7 @@
 
 ```sh
 NEXT_PUBLIC_HOST_BE=http://localhost:5020
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=419461063850-7a5l66s7uhmp8hev97mc7j31r8ai7720.apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=<your-google-client-id>
 ```
 
 5. modify styles
